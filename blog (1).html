@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>✿ 我的小窝 ✿</title>
+  <link href="https://fonts.googleapis.com/css2?family=ZCOOL+XiaoWei&family=Noto+Serif+SC:wght@300;400;500&family=Ma+Shan+Zheng&display=swap" rel="stylesheet"/>
+  <style>
+    /* ===== CSS 变量 ===== */
+    :root {
+      --pink:       #fde8f0;
+      --pink-light: #f7f0f4;
+      --pink-dark:  #d4a0b8;
+      --mint:       #e8f4f0;
+      --mint-light: #f0f7f4;
+      --yellow:     #faf4e8;
+      --white:      #ffffff;
+      --text:       #2a2a2a;
+      --text-soft:  #888888;
+      --border:     #2a2a2a;   /* 主线条用黑色 */
+      --border-soft: #e0e0e0;  /* 内部分隔用浅色 */
+      --shadow:     rgba(0,0,0,0.06);
+      --nav-active-bg: #fff0f6;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Serif SC', serif;
+      background-color: var(--pink-light);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ===== 顶部：站名 ===== */
+    .site-title-bar {
+      text-align: center;
+      padding: 18px 0 0;
+      background: var(--pink-light);
+    }
+
+    .site-title {
+      font-family: 'ZCOOL XiaoWei', serif;
+      font-size: 1.6rem;
+      color: var(--text);
+      letter-spacing: 4px;
+    }
+
+    /* ===== 导航标签栏（紧贴内容块） ===== */
+    .nav-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--pink-light);
+      padding: 10px 20px 0;
+    }
+
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      gap: 0;
+    }
+
+    nav button {
+      font-family: 'ZCOOL XiaoWei', serif;
+      font-size: 0.88rem;
+      padding: 5px 22px 6px;
+      border: 1.5px solid #c8a0b8;
+      border-bottom: none;
+      border-radius: 12px 12px 0 0;
+      background: linear-gradient(180deg, #fff8fb 0%, #fde8f3 100%);
+      color: #a06080;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      letter-spacing: 2px;
+      margin-right: 3px;
+      position: relative;
+      bottom: -1.5px;   /* 与内容块顶部边框对齐 */
+    }
+
+    nav button:hover {
+      background: linear-gradient(180deg, #fff0f8 0%, #fcd8ec 100%);
+      color: #804060;
+    }
+
+    nav button.active {
+      background: var(--white);
+      color: var(--text);
+      border-color: var(--border);
+      border-bottom: 1.5px solid var(--white); /* 打通底部边框 */
+      font-weight: 500;
+      z-index: 2;
+    }
+
+    /* ===== 整体大盒子 ===== */
+    .blog-box {
+      max-width: 1100px;
+      margin: 0 auto 40px;
+      padding: 0 20px;
+    }
+
+    /* 内容主体：一整块白色，黑色边框 */
+    .blog-body {
+      display: flex;
+      border: 1.5px solid var(--border);
+      background: var(--white);
+      min-height: 500px;
+    }
+
+    /* ===== 左侧边栏 ===== */
+    .sidebar {
+      width: 210px;
+      flex-shrink: 0;
+      border-right: 1.5px solid var(--border);
+      position: sticky;
+      top: 47px;  /* 导航栏高度 */
+      align-self: flex-start;
+      /* 让sidebar跟随滚动时保持在视口内 */
+      max-height: calc(100vh - 50px);
+      overflow-y: auto;
+    }
+
+    /* 侧边栏各区块 */
+    .sidebar-section {
+      padding: 14px 14px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .sidebar-section:last-child {
+      border-bottom: none;
+    }
+
+    .section-title {
+      font-family: 'ZCOOL XiaoWei', serif;
+      font-size: 0.78rem;
+      color: var(--text-soft);
+      letter-spacing: 3px;
+      margin-bottom: 10px;
+    }
+
+    /* 头像 */
+    .avatar-area { text-align: center; }
+
+    .avatar {
+      width: 82px;
+      height: 82px;
+      border-radius: 50%;
+      background: var(--pink);
+      margin: 0 auto 10px;
+      border: 1.5px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.4rem;
+      overflow: hidden;
+      padding: 0;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-4px); }
+    }
+
+    .username {
+      font-family: 'ZCOOL XiaoWei', serif;
+      font-size: 1.1rem;
+      color: var(--text);
+      margin-bottom: 4px;
+      letter-spacing: 2px;
+    }
+
+    .status {
+      font-size: 0.68rem;
+      color: var(--text-soft);
+      background: var(--mint-light);
+      border: 1px solid var(--border-soft);
+      border-radius: 0;
+      padding: 2px 8px;
+      display: inline-block;
+      margin-bottom: 8px;
+    }
+
+    .bio {
+      font-size: 0.72rem;
+      color: var(--text-soft);
+      line-height: 1.8;
+      text-align: left;
+      padding-top: 8px;
+      border-top: 1px solid var(--border-soft);
+      margin-top: 4px;
+    }
+
+    /* 社交链接 */
+    .social-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .social-btn {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 0.68rem;
+      padding: 3px 9px;
+      border: 1px solid var(--border);
+      background: var(--white);
+      color: var(--text);
+      cursor: pointer;
+      transition: all 0.15s;
+      text-decoration: none;
+      border-radius: 0;
+    }
+
+    .social-btn:hover {
+      background: var(--text);
+      color: white;
+    }
+
+    /* 统计 */
+    .stats { display: flex; justify-content: space-around; }
+    .stat-item { text-align: center; }
+    .stat-num {
+      font-family: 'Ma Shan Zheng', cursive;
+      font-size: 1.5rem;
+      color: var(--text);
+      line-height: 1;
+    }
+    .stat-label { font-size: 0.62rem; color: var(--text-soft); margin-top: 2px; }
+
+    /* 标签云 */
+    .tag-cloud { display: flex; flex-wrap: wrap; gap: 5px; }
+    .tag {
+      font-size: 0.66rem;
+      padding: 2px 7px;
+      border: 1px solid var(--border-soft);
+      background: var(--yellow);
+      color: var(--text);
+      cursor: default;
+      transition: transform 0.15s;
+    }
+    .tag:hover { transform: scale(1.08); background: var(--pink); }
+
+    /* ===== 主内容区 ===== */
+    .main-content {
+      flex: 1;
+      min-width: 0;
+      padding: 24px 24px;
+    }
+
+    /* 页面切换动画 */
+    .page { display: none; animation: fadeIn 0.25s ease; }
+    .page.active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===== 首页 Banner ===== */
+    .banner {
+      background: var(--pink);
+      border: 1px solid var(--border-soft);
+      padding: 24px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .banner h1 {
+      font-family: 'ZCOOL XiaoWei', serif;
+      font-size: 2rem;
+      color: var(--text);
+      margin-bottom: 6px;
+      letter-spacing: 4px;
+    }
+
+    .banner p { font-size: 0.82rem; color: var(--text-soft); }
+
+    /* ===== 页标题 ===== */
+    .page-header {
+      font-family: 'ZCOOL XiaoWei', serif;
+      font-size: 1.5rem;
+      color: var(--text);
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+      letter-spacing: 3px;
+    }
+
+    /* ===== 博文列表（无卡片，用线条分隔） ===== */
+    .post-list { display: flex; flex-direction: column; }
+
+    .post-item {
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border-soft);
+      cursor: pointer;
+      transition: background 0.15s;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .post-item:last-child { border-bottom: none; }
+    .post-item:hover { background: var(--pink-light); padding-left: 6px; }
+
+    .post-emoji { font-size: 1.3rem; flex-shrink: 0; margin-top: 2px; }
+
+    .post-info { flex: 1; }
+
+    .post-item h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .post-item p {
+      font-size: 0.74rem;
+      color: var(--text-soft);
+      line-height: 1.6;
+    }
+
+    .post-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 6px;
+      font-size: 0.64rem;
+      color: var(--text-soft);
+    }
+
+    .post-tag {
+      background: var(--pink);
+      border: 1px solid var(--border-soft);
+      padding: 1px 7px;
+      color: var(--text-soft);
+      font-size: 0.64rem;
+    }
+
+    /* ===== 关于页 ===== */
+    .about-box {
+      line-height: 2;
+      font-size: 0.88rem;
+    }
+
+    .about-box h2 {
+      font-family: 'ZCOOL XiaoWei', serif;
+      font-size: 1.4rem;
+      color: var(--text);
+      margin-bottom: 14px;
+      letter-spacing: 3px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .about-box p { margin-bottom: 10px; color: var(--text-soft); }
+    .about-box strong { color: var(--text); }
+
+    .skill-row { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; }
+
+    .skill-chip {
+      font-size: 0.72rem;
+      padding: 3px 10px;
+      border: 1px solid var(--border-soft);
+      background: var(--mint-light);
+      color: var(--text);
+    }
+
+    /* ===== 留言板 ===== */
+    .guestbook { display: flex; flex-direction: column; gap: 16px; }
+
+    .msg-form { border: 1px solid var(--border-soft); padding: 18px; background: var(--pink-light); }
+
+    .msg-form h3 {
+      font-family: 'ZCOOL XiaoWei', serif;
+      font-size: 1.1rem;
+      color: var(--text);
+      margin-bottom: 12px;
+      letter-spacing: 2px;
+    }
+
+    .form-row { margin-bottom: 10px; }
+
+    .form-row label {
+      display: block;
+      font-size: 0.72rem;
+      color: var(--text-soft);
+      margin-bottom: 4px;
+    }
+
+    .form-row input,
+    .form-row textarea {
+      width: 100%;
+      padding: 7px 10px;
+      border: 1px solid var(--border);
+      border-radius: 0;
+      font-family: 'Noto Serif SC', serif;
+      font-size: 0.82rem;
+      color: var(--text);
+      background: var(--white);
+      outline: none;
+      transition: border-color 0.2s;
+      resize: none;
+    }
+
+    .form-row input:focus,
+    .form-row textarea:focus { border-color: #a06080; }
+
+    .submit-btn {
+      padding: 6px 22px;
+      background: var(--text);
+      color: white;
+      border: none;
+      font-family: 'ZCOOL XiaoWei', serif;
+      font-size: 0.85rem;
+      cursor: pointer;
+      letter-spacing: 2px;
+      transition: opacity 0.2s;
+    }
+
+    .submit-btn:hover { opacity: 0.75; }
+
+    .msg-bubble {
+      padding: 12px 14px;
+      border: 1px solid var(--border-soft);
+      border-left: 3px solid var(--border);
+      background: var(--white);
+    }
+
+    .msg-name { font-size: 0.8rem; font-weight: 500; color: var(--text); margin-bottom: 4px; }
+    .msg-text { font-size: 0.78rem; color: var(--text-soft); line-height: 1.7; }
+    .msg-date { font-size: 0.62rem; color: #ccc; text-align: right; margin-top: 6px; }
+
+    /* ===== 作品集 ===== */
+    .works-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 1px;
+      border: 1px solid var(--border-soft);
+      background: var(--border-soft);
+    }
+
+    .work-card {
+      background: var(--white);
+      overflow: hidden;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .work-card:hover { background: var(--pink-light); }
+
+    .work-thumb {
+      height: 110px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.8rem;
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+    .work-info { padding: 10px 12px; }
+    .work-info h4 { font-size: 0.8rem; color: var(--text); margin-bottom: 3px; }
+    .work-info p { font-size: 0.68rem; color: var(--text-soft); }
+
+    /* ===== 友链 ===== */
+    .links-list { display: flex; flex-direction: column; }
+    .link-item {
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border-soft);
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    .link-item:last-child { border-bottom: none; }
+    .link-emoji { font-size: 1.2rem; }
+    .link-info h3 { font-size: 0.88rem; color: var(--text); margin-bottom: 3px; }
+    .link-info p { font-size: 0.72rem; color: var(--text-soft); }
+
+    .links-notice {
+      margin-top: 16px;
+      padding: 12px 14px;
+      border: 1px dashed var(--border-soft);
+      font-size: 0.78rem;
+      color: var(--text-soft);
+      background: var(--mint-light);
+    }
+
+    /* ===== 页脚 ===== */
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 0.68rem;
+      color: var(--text-soft);
+      border-top: 1px solid var(--border-soft);
+      background: var(--pink-light);
+    }
+
+    /* ===== 滚动条 ===== */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--pink-light); }
+    ::-webkit-scrollbar-thumb { background: var(--pink-dark); }
+
+    /* ===== 响应式 ===== */
+    @media (max-width: 700px) {
+      .blog-body { flex-direction: column; }
+      .sidebar { position: static; width: 100%; border-right: none; border-bottom: 1.5px solid var(--border); max-height: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- 站名 -->
+<div class="site-title-bar">
+  <div class="site-title">✿ 我的小窝 · My Blog ✿</div>
+</div>
+
+<!-- 导航标签 -->
+<div class="nav-bar">
+  <div class="nav-inner">
+    <nav>
+      <button class="active" onclick="showPage('home', this)"><span>🏠 首页</span></button>
+      <button onclick="showPage('blog', this)"><span>📝 博客</span></button>
+      <button onclick="showPage('works', this)"><span>🎨 作品</span></button>
+      <button onclick="showPage('about', this)"><span>🌸 关于</span></button>
+      <button onclick="showPage('links', this)"><span>🔗 友链</span></button>
+      <button onclick="showPage('guest', this)"><span>💌 留言</span></button>
+    </nav>
+  </div>
+</div>
+
+<!-- 整体大盒子 -->
+<div class="blog-box">
+  <div class="blog-body">
+
+    <!-- 左侧边栏 -->
+    <aside class="sidebar">
+
+      <!-- 头像 & 个人信息 -->
+      <div class="sidebar-section">
+        <div class="avatar-area">
+          <div class="avatar">
+            <img src="profile_pic.jpg" alt="头像"/>
+          </div>
+          <div class="username">你的名字</div>
+          <div class="status">🟢 在线</div>
+          <p class="bio">
+            ——————————<br>
+            这里是我的个人网站。<br>
+            喜欢音乐、手工、数学。<br>
+            正在学习前端开发 ✨<br>
+            感谢你的来访 ♥
+          </p>
+        </div>
+      </div>
+
+      <!-- 社交链接 -->
+      <div class="sidebar-section">
+        <div class="section-title">:: 社交 ::</div>
+        <div class="social-links">
+          <a class="social-btn" href="#" target="_blank">GitHub</a>
+          <a class="social-btn" href="#" target="_blank">小红书</a>
+          <a class="social-btn" href="#" target="_blank">bilibili</a>
+          <a class="social-btn" href="#" target="_blank">Twitter</a>
+          <a class="social-btn" href="#" target="_blank">微博</a>
+        </div>
+      </div>
+
+      <!-- 统计 -->
+      <div class="sidebar-section">
+        <div class="section-title">:: 数据 ::</div>
+        <div class="stats">
+          <div class="stat-item">
+            <div class="stat-num">12</div>
+            <div class="stat-label">文章</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">8</div>
+            <div class="stat-label">作品</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">99+</div>
+            <div class="stat-label">访客</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 标签 -->
+      <div class="sidebar-section">
+        <div class="section-title">:: 标签 ::</div>
+        <div class="tag-cloud">
+          <span class="tag">Python</span>
+          <span class="tag">数学</span>
+          <span class="tag">音乐</span>
+          <span class="tag">手工</span>
+          <span class="tag">摄影</span>
+          <span class="tag">日记</span>
+          <span class="tag">读书</span>
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- 主内容区 -->
+    <main class="main-content">
+
+      <!-- 首页 -->
+      <div id="home" class="page active">
+        <div class="banner">
+          <h1>欢迎来到我的小窝~ ♡</h1>
+          <p>这里记录我的日常与创作，希望你喜欢 (◕‿◕✿)</p>
+        </div>
+        <div class="page-header">✦ 最新文章</div>
+        <div class="post-list">
+          <div class="post-item">
+            <div class="post-emoji">🌷</div>
+            <div class="post-info">
+              <h3>今天学了什么新东西</h3>
+              <p>今天研究了 HTML 和 CSS 的基础知识，发现前端也没那么难！</p>
+              <div class="post-meta"><span>2024-03-20</span><span class="post-tag">日记</span></div>
+            </div>
+          </div>
+          <div class="post-item">
+            <div class="post-emoji">🎵</div>
+            <div class="post-info">
+              <h3>最近在听的歌单</h3>
+              <p>分享几首最近单曲循环的歌，每一首都超治愈的～</p>
+              <div class="post-meta"><span>2024-03-15</span><span class="post-tag">音乐</span></div>
+            </div>
+          </div>
+          <div class="post-item">
+            <div class="post-emoji">📐</div>
+            <div class="post-info">
+              <h3>线性代数期末复习笔记</h3>
+              <p>整理了矩阵运算和特征值的核心知识点，附思维导图。</p>
+              <div class="post-meta"><span>2024-03-10</span><span class="post-tag">数学</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 博客页 -->
+      <div id="blog" class="page">
+        <div class="page-header">📝 所有文章</div>
+        <div class="post-list">
+          <div class="post-item">
+            <div class="post-emoji">🌷</div>
+            <div class="post-info">
+              <h3>今天学了什么新东西</h3>
+              <p>今天研究了 HTML 和 CSS 的基础知识，发现前端也没那么难！</p>
+              <div class="post-meta"><span>2024-03-20</span><span class="post-tag">日记</span></div>
+            </div>
+          </div>
+          <div class="post-item">
+            <div class="post-emoji">🎵</div>
+            <div class="post-info">
+              <h3>最近在听的歌单</h3>
+              <p>分享几首最近单曲循环的歌，每一首都超治愈的～</p>
+              <div class="post-meta"><span>2024-03-15</span><span class="post-tag">音乐</span></div>
+            </div>
+          </div>
+          <div class="post-item">
+            <div class="post-emoji">📐</div>
+            <div class="post-info">
+              <h3>线性代数期末复习笔记</h3>
+              <p>整理了矩阵运算和特征值的核心知识点，附思维导图。</p>
+              <div class="post-meta"><span>2024-03-10</span><span class="post-tag">数学</span></div>
+            </div>
+          </div>
+          <div class="post-item">
+            <div class="post-emoji">☁️</div>
+            <div class="post-info">
+              <h3>春天的散步日记</h3>
+              <p>今天天气好好，出门走了好久，拍了很多照片分享给大家。</p>
+              <div class="post-meta"><span>2024-03-05</span><span class="post-tag">生活</span></div>
+            </div>
+          </div>
+          <div class="post-item">
+            <div class="post-emoji">🎨</div>
+            <div class="post-info">
+              <h3>我的第一个手工作品</h3>
+              <p>做了一个羊毛毡的小兔子，虽然歪歪扭扭但超可爱！</p>
+              <div class="post-meta"><span>2024-02-28</span><span class="post-tag">手工</span></div>
+            </div>
+          </div>
+          <div class="post-item">
+            <div class="post-emoji">🐍</div>
+            <div class="post-info">
+              <h3>Python 画图小技巧</h3>
+              <p>用 matplotlib 做了几个好看的数据可视化图，附代码。</p>
+              <div class="post-meta"><span>2024-02-20</span><span class="post-tag">Python</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 作品页 -->
+      <div id="works" class="page">
+        <div class="page-header">🎨 作品集</div>
+        <div class="works-grid">
+          <div class="work-card">
+            <div class="work-thumb" style="background:#fde8f0">🐰</div>
+            <div class="work-info"><h4>羊毛毡小兔</h4><p>手工 · 2024年3月</p></div>
+          </div>
+          <div class="work-card">
+            <div class="work-thumb" style="background:#faf4e8">📊</div>
+            <div class="work-info"><h4>数据可视化项目</h4><p>Python · 2024年2月</p></div>
+          </div>
+          <div class="work-card">
+            <div class="work-thumb" style="background:#e8f4f0">🎵</div>
+            <div class="work-info"><h4>翻唱小样</h4><p>音乐 · 2024年1月</p></div>
+          </div>
+          <div class="work-card">
+            <div class="work-thumb" style="background:#f0f7f4">📸</div>
+            <div class="work-info"><h4>春日摄影集</h4><p>摄影 · 2024年3月</p></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 关于页 -->
+      <div id="about" class="page">
+        <div class="page-header">🌸 关于我</div>
+        <div class="about-box">
+          <h2>你好！我是 [你的名字] ✿</h2>
+          <p>欢迎来到我的个人小站～这里是我记录日常、分享创作的地方。</p>
+          <p>我是一名 <strong>数学系学生</strong>，同时对编程、音乐和手工艺也有浓厚的兴趣。目前正在学习 Python 和前端开发，希望能做出更多有趣的东西 ✨</p>
+          <p><strong>喜欢的事情：</strong></p>
+          <div class="skill-row">
+            <span class="skill-chip">🎵 听音乐</span>
+            <span class="skill-chip">🧶 手工</span>
+            <span class="skill-chip">📚 读书</span>
+            <span class="skill-chip">📷 摄影</span>
+            <span class="skill-chip">🎮 游戏</span>
+            <span class="skill-chip">🍡 甜食</span>
+          </div>
+          <p><strong>正在学习：</strong></p>
+          <div class="skill-row">
+            <span class="skill-chip">🐍 Python</span>
+            <span class="skill-chip">📐 线性代数</span>
+            <span class="skill-chip">🌐 HTML/CSS</span>
+            <span class="skill-chip">🎹 钢琴</span>
+          </div>
+          <p>如果你有任何想聊的，欢迎在留言板留言，或者通过社交媒体联系我 ♥</p>
+        </div>
+      </div>
+
+      <!-- 友链页 -->
+      <div id="links" class="page">
+        <div class="page-header">🔗 友情链接</div>
+        <div class="links-list">
+          <div class="link-item">
+            <div class="link-emoji">🌟</div>
+            <div class="link-info">
+              <h3>朋友的博客</h3>
+              <p>一个关于设计与生活的小站，排版非常好看～ · friend.blog.com</p>
+            </div>
+          </div>
+          <div class="link-item">
+            <div class="link-emoji">🌿</div>
+            <div class="link-info">
+              <h3>另一个朋友</h3>
+              <p>分享各种美食和旅行见闻，看了总是很治愈。 · example.com</p>
+            </div>
+          </div>
+        </div>
+        <div class="links-notice">
+          💌 想和我交换友链？请在留言板留下你的网站地址和介绍，我会尽快审核添加～
+        </div>
+      </div>
+
+      <!-- 留言页 -->
+      <div id="guest" class="page">
+        <div class="page-header">💌 留言板</div>
+        <div class="guestbook">
+          <div class="msg-form">
+            <h3>留下你的足迹 ♡</h3>
+            <div class="form-row">
+              <label>昵称</label>
+              <input type="text" id="msg-name" placeholder="你的名字或昵称"/>
+            </div>
+            <div class="form-row">
+              <label>留言内容</label>
+              <textarea id="msg-text" rows="4" placeholder="写下你想说的话吧～"></textarea>
+            </div>
+            <button class="submit-btn" onclick="submitMsg()">发送留言 ✉️</button>
+          </div>
+          <div id="msg-list">
+            <div class="msg-bubble">
+              <div class="msg-name">🌸 小樱</div>
+              <div class="msg-text">你的博客好可爱！要常常更新哦～</div>
+              <div class="msg-date">2024-03-18</div>
+            </div>
+            <div class="msg-bubble">
+              <div class="msg-name">🐰 兔兔</div>
+              <div class="msg-text">路过留个脚印，以后要常来玩！你的手工作品超棒！</div>
+              <div class="msg-date">2024-03-12</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- 页脚 -->
+<footer>
+  ✿ 我的小窝 · Built with ♡ · 2024 ✿<br>
+  <small>感谢每一位来访的朋友</small>
+</footer>
+
+<script>
+  function showPage(id, btn) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  function submitMsg() {
+    const name = document.getElementById('msg-name').value.trim();
+    const text = document.getElementById('msg-text').value.trim();
+    if (!name || !text) { alert('请填写昵称和留言内容 (｡•́︿•̀｡)'); return; }
+    const today = new Date().toISOString().slice(0, 10);
+    const bubble = document.createElement('div');
+    bubble.className = 'msg-bubble';
+    bubble.innerHTML = `
+      <div class="msg-name">💬 ${name}</div>
+      <div class="msg-text">${text}</div>
+      <div class="msg-date">${today}</div>
+    `;
+    document.getElementById('msg-list').prepend(bubble);
+    document.getElementById('msg-name').value = '';
+    document.getElementById('msg-text').value = '';
+  }
+</script>
+
+</body>
+</html>
